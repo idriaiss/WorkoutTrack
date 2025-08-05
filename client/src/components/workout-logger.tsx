@@ -407,18 +407,21 @@ export default function WorkoutLogger() {
                       <div key={workoutExercise.id} className="bg-muted rounded-lg p-4">
                         <div className="flex items-center justify-between mb-3">
                           <h4 className="font-semibold">{workoutExercise.exercise.name}</h4>
-                          <Badge 
-                            variant={workoutExercise.exercise.category === "upper" ? "default" : "secondary"}
-                            className={workoutExercise.exercise.category === "upper" ? "bg-secondary text-secondary-foreground" : "bg-success text-success-foreground"}
-                          >
-                            {workoutExercise.exercise.category === "upper" ? "Upper Body" : "Lower Body"}
+                          <Badge variant={workoutExercise.exercise.category === "upper" ? "default" : "secondary"}>
+                            {workoutExercise.exercise.bodyPart}
                           </Badge>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                        
+                        <div className="space-y-2">
                           {workoutExercise.sets.map((set) => (
-                            <div key={set.id} className="bg-background p-2 rounded text-center text-sm">
-                              <div className="text-muted-foreground">Set {set.setNumber}</div>
-                              <div className="font-semibold">{set.weight} lbs × {set.reps}</div>
+                            <div key={set.id} className="flex items-center justify-between bg-background rounded p-2">
+                              <span className="text-sm">Set {set.setNumber}</span>
+                              <span className="text-sm font-medium">
+                                {set.weight} lbs × {set.reps} reps
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                {(parseFloat(set.weight) * set.reps).toLocaleString()} lbs
+                              </span>
                             </div>
                           ))}
                         </div>
@@ -427,87 +430,95 @@ export default function WorkoutLogger() {
                   </div>
                 )}
 
-                <Button
-                  onClick={() => finishWorkoutMutation.mutate()}
-                  disabled={finishWorkoutMutation.isPending}
-                  className="w-full bg-success text-success-foreground"
-                  data-testid="button-finish-workout"
-                >
-                  <Check className="w-4 h-4 mr-2" />
-                  Finish Workout
-                </Button>
+                {/* Finish Workout */}
+                {currentWorkout && currentWorkout.exercises.length > 0 && (
+                  <Button
+                    onClick={() => finishWorkoutMutation.mutate()}
+                    disabled={finishWorkoutMutation.isPending}
+                    className="w-full bg-success text-success-foreground"
+                    data-testid="button-finish-workout"
+                  >
+                    <Check className="w-4 h-4 mr-2" />
+                    Finish Workout
+                  </Button>
+                )}
               </>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* Session Info Sidebar */}
+      {/* Session Stats Sidebar */}
       <div className="space-y-6">
+        {/* Session Timer */}
         <Card>
           <CardHeader>
-            <CardTitle>Session Info</CardTitle>
+            <CardTitle className="text-lg">Session Timer</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Duration</span>
-              <span className="font-semibold" data-testid="text-duration">
+          <CardContent>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-secondary mb-2" data-testid="text-session-timer">
                 {formatTime(sessionTime)}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Exercises</span>
-              <span className="font-semibold" data-testid="text-exercises">
-                {stats.exercises}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Total Sets</span>
-              <span className="font-semibold" data-testid="text-sets">
-                {stats.sets}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-muted-foreground">Total Volume</span>
-              <span className="font-semibold" data-testid="text-volume">
-                {stats.volume.toLocaleString()} lbs
-              </span>
+              </div>
+              <p className="text-sm text-muted-foreground">Total Time</p>
             </div>
           </CardContent>
         </Card>
 
-        {/* Quick Rest Timer */}
+        {/* Rest Timer */}
         <Card>
           <CardHeader>
-            <CardTitle>Rest Timer</CardTitle>
+            <CardTitle className="text-lg">Rest Timer</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-center">
-              <div className="text-3xl font-bold text-secondary mb-4" data-testid="text-rest-timer">
+              <div className="text-2xl font-bold text-primary mb-4" data-testid="text-rest-timer">
                 {formatTime(restTime)}
               </div>
-              <div className="flex space-x-2">
-                <Button
-                  onClick={startRest}
-                  className="flex-1 bg-secondary text-secondary-foreground"
-                  size="sm"
-                  data-testid="button-start-rest"
-                >
-                  Start
-                </Button>
-                <Button
-                  onClick={resetRest}
-                  variant="outline"
-                  className="flex-1"
-                  size="sm"
-                  data-testid="button-reset-rest"
-                >
-                  Reset
-                </Button>
+              <div className="grid grid-cols-2 gap-2">
+                {[60, 90, 120, 180].map((seconds) => (
+                  <Button
+                    key={seconds}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => resetRest()}
+                    className="text-xs"
+                    data-testid={`button-rest-${seconds}`}
+                  >
+                    {Math.floor(seconds / 60)}:{(seconds % 60).toString().padStart(2, "0")}
+                  </Button>
+                ))}
               </div>
             </div>
           </CardContent>
         </Card>
+
+        {/* Session Stats */}
+        {currentWorkoutId && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Session Stats</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Exercises</span>
+                  <span className="font-semibold" data-testid="text-session-exercises">{stats.exercises}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Sets</span>
+                  <span className="font-semibold" data-testid="text-session-sets">{stats.sets}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm text-muted-foreground">Volume</span>
+                  <span className="font-semibold" data-testid="text-session-volume">
+                    {stats.volume.toLocaleString()} lbs
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );

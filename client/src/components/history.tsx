@@ -63,7 +63,7 @@ export default function History() {
   };
 
   const getWorkoutTitle = (workout: WorkoutWithDetails) => {
-    const bodyParts = [...new Set(workout.exercises.map(we => we.exercise.bodyPart))];
+    const bodyParts = Array.from(new Set(workout.exercises.map(we => we.exercise.bodyPart)));
     if (bodyParts.length === 0) return "Empty Workout";
     if (bodyParts.length === 1) return `${bodyParts[0]} Workout`;
     if (bodyParts.length > 3) return "Full Body Workout";
@@ -71,7 +71,7 @@ export default function History() {
   };
 
   const getUniqueBodyParts = (workout: WorkoutWithDetails) => {
-    return [...new Set(workout.exercises.map(we => we.exercise.bodyPart))];
+    return Array.from(new Set(workout.exercises.map(we => we.exercise.bodyPart)));
   };
 
   if (isLoading) {

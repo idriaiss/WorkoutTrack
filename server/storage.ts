@@ -82,7 +82,14 @@ export class MemStorage implements IStorage {
 
   async createWorkout(insertWorkout: InsertWorkout): Promise<Workout> {
     const id = randomUUID();
-    const workout: Workout = { ...insertWorkout, id };
+    const workout: Workout = { 
+      ...insertWorkout, 
+      id,
+      duration: insertWorkout.duration ?? null,
+      endTime: insertWorkout.endTime ?? null,
+      totalVolume: insertWorkout.totalVolume ?? "0",
+      notes: insertWorkout.notes ?? null,
+    };
     this.workouts.set(id, workout);
     return workout;
   }
@@ -136,7 +143,11 @@ export class MemStorage implements IStorage {
 
   async createExercise(insertExercise: InsertExercise): Promise<Exercise> {
     const id = randomUUID();
-    const exercise: Exercise = { ...insertExercise, id };
+    const exercise: Exercise = { 
+      ...insertExercise, 
+      id,
+      isCustom: insertExercise.isCustom ?? false,
+    };
     this.exercises.set(id, exercise);
     return exercise;
   }
@@ -168,7 +179,11 @@ export class MemStorage implements IStorage {
 
   async addSet(insertSet: InsertSet): Promise<Set> {
     const id = randomUUID();
-    const set: Set = { ...insertSet, id };
+    const set: Set = { 
+      ...insertSet, 
+      id,
+      restTime: insertSet.restTime ?? null,
+    };
     this.sets.set(id, set);
     return set;
   }

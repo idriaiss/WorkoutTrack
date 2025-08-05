@@ -40,6 +40,9 @@ export const sets = pgTable("sets", {
 // Insert schemas
 export const insertWorkoutSchema = createInsertSchema(workouts).omit({
   id: true,
+}).extend({
+  startTime: z.string().transform((val) => new Date(val)),
+  endTime: z.string().transform((val) => new Date(val)).optional(),
 });
 
 export const insertExerciseSchema = createInsertSchema(exercises).omit({
