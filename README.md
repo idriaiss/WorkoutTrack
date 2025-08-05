@@ -37,6 +37,20 @@ For detailed setup instructions, see [LOCAL_SETUP_GUIDE.md](./LOCAL_SETUP_GUIDE.
 
 3. Open your browser to `http://localhost:5000`
 
+### Troubleshooting Local Setup
+
+If you encounter "operation not supported on socket 0.0.0.0:5000" error:
+
+```bash
+# Use a specific host
+HOST=127.0.0.1 npm run dev
+
+# Or use a different port
+PORT=3000 npm run dev
+```
+
+The app automatically uses `localhost` in development mode to avoid this issue.
+
 ## Project Structure
 
 ```

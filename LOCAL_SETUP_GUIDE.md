@@ -107,6 +107,12 @@ To use the app again:
 - Make sure Node.js is installed: type `node --version` in terminal
 - Make sure you're in the right folder: `ls` (Mac) or `dir` (Windows) should show package.json
 
+**Error: "operation not supported on socket 0.0.0.0:5000"**
+This error happens on some Windows systems or certain network configurations:
+- The app will now automatically use `localhost` instead of `0.0.0.0` in development
+- Try running the command again: `npm run dev`
+- If it still fails, try: `HOST=127.0.0.1 npm run dev` (Mac/Linux) or set HOST=127.0.0.1 then npm run dev (Windows)
+
 **Browser shows error?**
 - Wait a few seconds after running `npm run dev`
 - Try refreshing the browser page
@@ -115,7 +121,11 @@ To use the app again:
 **Port already in use?**
 - Another app might be using port 5000
 - Stop other development apps first
-- Or change the port in the code
+- Try a different port: `PORT=3000 npm run dev` then go to `http://localhost:3000`
+
+**Permission errors?**
+- Try running Terminal/Command Prompt as Administrator (Windows)
+- On Mac, avoid using `sudo` with npm commands
 
 ### Getting Help
 
