@@ -121,7 +121,7 @@ export default function Statistics() {
                 <p className="text-2xl font-bold" data-testid="text-total-volume">
                   {stats?.totalVolume.toLocaleString() || 0}
                 </p>
-                <p className="text-xs text-muted-foreground">lbs lifted {timeframe !== 'all' ? `${timeframe === 'week' ? 'this week' : 'this month'}` : 'total'}</p>
+                <p className="text-xs text-muted-foreground">kg lifted {timeframe !== 'all' ? `${timeframe === 'week' ? 'this week' : 'this month'}` : 'total'}</p>
               </div>
               <div className="w-12 h-12 bg-success/10 rounded-lg flex items-center justify-center">
                 <Weight className="text-success w-6 h-6" />
@@ -202,7 +202,7 @@ export default function Statistics() {
                     <Tooltip 
                       labelFormatter={(value) => new Date(value).toLocaleDateString()}
                       formatter={(value: any, name: string) => [
-                        name === 'weight' ? `${value} lbs` : `${value} lbs`,
+                        name === 'weight' ? `${value} kg` : `${value} kg`,
                         name === 'weight' ? 'Max Weight' : 'Volume'
                       ]}
                     />

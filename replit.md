@@ -5,6 +5,7 @@ This is a full-stack workout tracking application built with React, Express, Typ
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
+Units: Metric system (kilograms for weight measurements instead of pounds).
 
 # System Architecture
 

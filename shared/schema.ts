@@ -9,7 +9,7 @@ export const workouts = pgTable("workouts", {
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time"),
   duration: integer("duration"), // in seconds
-  totalVolume: decimal("total_volume", { precision: 10, scale: 2 }).default("0"),
+  totalVolume: decimal("total_volume", { precision: 10, scale: 2 }).default("0"), // in kilograms
   notes: text("notes"),
 });
 
@@ -32,7 +32,7 @@ export const sets = pgTable("sets", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   workoutExerciseId: varchar("workout_exercise_id").notNull(),
   setNumber: integer("set_number").notNull(),
-  weight: decimal("weight", { precision: 6, scale: 2 }).notNull(),
+  weight: decimal("weight", { precision: 6, scale: 2 }).notNull(), // in kilograms
   reps: integer("reps").notNull(),
   restTime: integer("rest_time"), // in seconds
 });

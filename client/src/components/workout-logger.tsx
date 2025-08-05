@@ -186,7 +186,7 @@ export default function WorkoutLogger() {
 
       toast({
         title: "Set Added!",
-        description: `Added ${data.reps} reps at ${data.weight} lbs`,
+        description: `Added ${data.reps} reps at ${data.weight} kg`,
       });
     } catch (error) {
       toast({
@@ -334,11 +334,11 @@ export default function WorkoutLogger() {
                           name="weight"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Weight (lbs)</FormLabel>
+                              <FormLabel>Weight (kg)</FormLabel>
                               <FormControl>
                                 <Input
                                   type="number"
-                                  placeholder="185"
+                                  placeholder="84"
                                   {...field}
                                   data-testid="input-weight"
                                 />
@@ -417,10 +417,10 @@ export default function WorkoutLogger() {
                             <div key={set.id} className="flex items-center justify-between bg-background rounded p-2">
                               <span className="text-sm">Set {set.setNumber}</span>
                               <span className="text-sm font-medium">
-                                {set.weight} lbs × {set.reps} reps
+                                {set.weight} kg × {set.reps} reps
                               </span>
                               <span className="text-xs text-muted-foreground">
-                                {(parseFloat(set.weight) * set.reps).toLocaleString()} lbs
+                                {(parseFloat(set.weight) * set.reps).toLocaleString()} kg
                               </span>
                             </div>
                           ))}
@@ -512,7 +512,7 @@ export default function WorkoutLogger() {
                 <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">Volume</span>
                   <span className="font-semibold" data-testid="text-session-volume">
-                    {stats.volume.toLocaleString()} lbs
+                    {stats.volume.toLocaleString()} kg
                   </span>
                 </div>
               </div>

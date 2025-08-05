@@ -139,7 +139,7 @@ export default function History() {
                         {getWorkoutTitle(workout)}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        {formatDate(workout.startTime)} • {formatTime(workout.startTime)}
+                        {formatDate(workout.startTime.toString())} • {formatTime(workout.startTime.toString())}
                       </p>
                     </div>
                     <div className="text-right">
@@ -166,7 +166,7 @@ export default function History() {
                     <div className="bg-muted rounded-lg p-3">
                       <p className="text-xs text-muted-foreground mb-1">Volume</p>
                       <p className="font-semibold" data-testid={`text-workout-volume-${workout.id}`}>
-                        {parseFloat(workout.totalVolume || "0").toLocaleString()} lbs
+                        {parseFloat(workout.totalVolume || "0").toLocaleString()} kg
                       </p>
                     </div>
                   </div>
